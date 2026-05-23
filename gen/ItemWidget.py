@@ -21,6 +21,7 @@ class Ui_ItemWidget(object):
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.label_image = QtWidgets.QLabel(parent=ItemWidget)
         self.label_image.setMinimumSize(QtCore.QSize(150, 150))
+        self.label_image.setMaximumSize(QtCore.QSize(150, 150))
         self.label_image.setStyleSheet("border-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255));")
         self.label_image.setObjectName("label_image")
         self.horizontalLayout_2.addWidget(self.label_image)

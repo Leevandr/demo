@@ -1,8 +1,6 @@
-from PyQt6 import QtWidgets
-from PyQt6.QtWidgets import QApplication, QWidget
+from PyQt6.QtWidgets import QApplication
 
-from auth import AuthWindow
-from gen.auth import Ui_AuthForm
+from widgets.auth import AuthWindow
 
 if __name__ == "__main__":
     import sys

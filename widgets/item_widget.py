@@ -25,6 +25,10 @@ class ItemWidget(QWidget):
             path = "image\\" + self.item["image"]
             pix = QPixmap(path)
         else:
-            path = "image\\img.png"
+            path = "../image/img.png"
             pix = QPixmap(path)
         self.ui.label_image.setPixmap(pix)
+
+    def mousePressEvent(self, a0):
+        main = self.window()
+        main.select_widget(self)

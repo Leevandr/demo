@@ -2,7 +2,7 @@ from PyQt6.QtWidgets import QWidget, QMessageBox
 
 from db import dao
 from gen.auth import Ui_AuthForm
-from main_widow import MainWindow
+from widgets.main_widow import MainWindow
 
 
 class AuthWindow(QWidget):
