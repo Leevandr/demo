@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QDialog
+from PyQt6.QtWidgets import QDialog, QMessageBox
 from unicodedata import category, decimal
 
 from db import dao
@@ -53,14 +53,10 @@ class ProductDialog(QDialog):
         print(title, category_id, brand_id, description, price, discount, image)
         if self.item:
             dao.edit_product(self.item["id"], title, category_id, brand_id, description, price, discount, image)
-            print(
-                "продукт успешно обновлен"
-            )
+            QMessageBox.information(self, "Успех", "Товар успешно отредактирован")
 
         else:
             dao.add_product(title, category_id, brand_id, description, price, discount, image)
-            print(
-                "продукт успешно добавлен"
-            )
+            QMessageBox.information(self, "Успех", "Товар успешно добавлен")
 
         self.accept()
