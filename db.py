@@ -23,17 +23,24 @@ class Database:
 
     def get_all_items(self, category="Все", search="", sort="Без сортировки"):
         sql = """
-            select p.id, b.title as brand, c.title as category, p.title, p.price, p.discount, p.image, p.description
-            from products p
-            join brands b on b.id = p.brand_id
-            join categories c on c.id = p.category_id
-            where p.title like %s
-                or p.description like %s
-                or c.title like %s
-                or b.title like %s
-        """
+              select p.id,
+                     b.title as brand,
+                     c.title as category,
+                     p.title,
+                     p.price,
+                     p.discount,
+                     p.image,
+                     p.description
+              from products p
+                       join brands b on b.id = p.brand_id
+                       join categories c on c.id = p.category_id
+              where p.title like %s
+                 or p.description like %s
+                 or c.title like %s
+                 or b.title like %s \
+              """
         search_param = f"%{search}%"
-        params = [search_param,search_param,search_param,search_param]
+        params = [search_param, search_param, search_param, search_param]
 
         if category != "Все":
             sql += " and c.title = %s"
@@ -78,8 +85,7 @@ class Database:
             cur.execute("select id from brands where title = %s", (brand,))
             return cur.fetchone()
 
-
-    def edit_product(self,item_id, title, category_id, brand_id, description, price, discount, image):
+    def edit_product(self, item_id, title, category_id, brand_id, description, price, discount, image):
         with self.cursor() as cur:
             cur.execute("update products set title = %s,"
                         " category_id = %s,"
@@ -88,12 +94,49 @@ class Database:
                         " price = %s,"
                         " discount = %s,"
                         " image = %s"
-                        " where products.id = %s", (title, category_id, brand_id, description, price, discount, image, item_id))
+                        " where products.id = %s",
+                        (title, category_id, brand_id, description, price, discount, image, item_id))
             cur.connection.commit()
 
     def delete_product(self, item_id):
         with self.cursor() as cur:
             cur.execute("delete from products where id = %s", (item_id,))
             cur.connection.commit()
+
+    def get_all_orders(self):
+        with self.cursor() as cur:
+            cur.execute("select * from orders")
+        return cur.fetchall()
+
+    def get_all_users(self):
+        with self.cursor() as cur:
+            cur.execute("select * from users")
+        return cur.fetchall()
+
+    def get_all_statuses(self):
+        with self.cursor() as cur:
+            cur.execute("select * from statuses")
+        return cur.fetchall()
+
+    def add_order(self,user_id, status_id, count, product_id):
+        with self.cursor() as cur:
+            cur.execute("insert into orders(user_id, status_id, count, product_id) values (%s,%s,%s,%s)",(user_id, status_id, count, product_id))
+            cur.connection.commit()
+
+    def get_user_by_id(self, user_id):
+        with self.cursor() as cur:
+            cur.execute("select * from users where id = %s", (user_id,))
+        return cur.fetchone()
+
+    def get_status_by_id(self, status_id):
+        with self.cursor() as cur:
+            cur.execute("select * from statuses where id = %s", (status_id,))
+        return cur.fetchone()
+
+    def get_product_by_id(self, product_id):
+        with self.cursor() as cur:
+            cur.execute("select * from products where id = %s", (product_id,))
+        return cur.fetchone()
+
 
 dao = Database()

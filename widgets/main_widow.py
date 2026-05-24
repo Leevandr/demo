@@ -3,7 +3,9 @@ from PyQt6.QtWidgets import QWidget, QLayout, QMessageBox
 from db import dao
 from gen.main_window import Ui_MainForm
 from widgets.ProductDialog import ProductDialog
+from widgets.item_order_widget import OrderItemWidget
 from widgets.item_widget import ItemWidget
+from widgets.order_dialog import OrderDialog
 
 
 def clear_layout(layout: QLayout):
@@ -29,17 +31,37 @@ class MainWindow(QWidget):
         self.conn()
         self.fill_combobox_sort()
         self.fill_combobox_categories()
+        self.add_widgets_orders()
 
     def conn(self):
         self.ui.pushButton_add.clicked.connect(self.add_new_product)
         self.ui.pushButton_edit.clicked.connect(self.edit_product)
         self.ui.pushButton_del.clicked.connect(self.delete_product)
 
+        self.ui.pushButton_add_order.clicked.connect(self.add_new_order)
+        self.ui.pushButton_edit_order.clicked.connect(self.edit_order)
+
         self.ui.pushButton_logout.clicked.connect(self.logout)
 
         self.ui.lineEdit_search.textChanged.connect(self.add_widgets)
         self.ui.comboBox_postav.currentIndexChanged.connect(self.add_widgets)
         self.ui.comboBox_sort.currentIndexChanged.connect(self.add_widgets)
+
+
+    def add_new_order(self):
+        OrderDialog().exec()
+        self.add_widgets_orders()
+
+    def edit_order(self):
+        if self.selected_widget and isinstance(self.selected_widget, OrderItemWidget):
+            OrderDialog(self.selected_widget.item).exec()
+        self.add_new_order()
+
+    def add_widgets_orders(self):
+        clear_layout(self.ui.verticalLayout_9)
+        orders = dao.get_all_orders()
+        for order in orders:
+            self.ui.verticalLayout_9.addWidget(OrderItemWidget(order))
 
     def delete_product(self):
         if self.selected_widget:
