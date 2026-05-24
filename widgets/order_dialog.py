@@ -13,7 +13,7 @@ class OrderDialog(QDialog):
         self.fill()
 
         if item:
-            self.fill_this()
+            self.fill_for_edit()
 
         self.ui.pushButton.clicked.connect(self.save)
 
@@ -29,7 +29,7 @@ class OrderDialog(QDialog):
         for product in products:
             self.ui.productComboBox.addItem(product["title"], product["id"])
 
-    def fill_this(self):
+    def fill_for_edit(self):
         self.ui.userComboBox.setCurrentText(dao.get_user_by_id(self.item["user_id"])["username"])
         self.ui.statusComboBox.setCurrentText(dao.get_status_by_id(self.item["status_id"])["title"])
         self.ui.productComboBox.setCurrentText(dao.get_product_by_id(self.item["product_id"])["title"])
