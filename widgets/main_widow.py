@@ -92,7 +92,7 @@ class MainWindow(QWidget):
             self.add_widgets()
 
         else:
-            QMessageBox.warning(self,"выбери товар","выбери товар")
+            QMessageBox.warning(self,"Ошибка","Сначала выбери товар")
 
 
     def fill_combobox_sort(self):
