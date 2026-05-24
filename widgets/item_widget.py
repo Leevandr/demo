@@ -15,10 +15,11 @@ class ItemWidget(QWidget):
 
     def fill_item(self):
         self.ui.label_title.setText(self.item["title"])
-        self.ui.label_price.setText(str(self.item["price"]))
-        self.ui.label_discount.setText(str(self.item["discount"]))
+        self.ui.label_price.setText(f'{self.item["price"]} рублей')
+        self.ui.label_discount.setText(f'{self.item["discount"]} % скидки')
         self.ui.label_category.setText(self.item["category"])
         self.ui.label_brand.setText(self.item["brand"])
+        self.ui.label_description.setText(self.item["description"])
 
 
         if self.item["image"]:

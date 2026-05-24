@@ -6,15 +6,19 @@ from gen.add_product_dialog import Ui_Dialog_add_product
 
 
 class ProductDialog(QDialog):
-    def __init__(self):
+    def __init__(self, item=None):
         super().__init__()
         self.ui = Ui_Dialog_add_product()
         self.ui.setupUi(self)
+        self.item = item
+        if self.item:
+            self.fill_combo_boxes(self.item)
+        else:
+            self.fill_combo_boxes()
 
-        self.fill_combo_boxes()
-        self.ui.pushButton.clicked.connect(self.add_product)
+        self.ui.pushButton.clicked.connect(self.save)
 
-    def fill_combo_boxes(self):
+    def fill_combo_boxes(self, item=None):
 
         categories = dao.get_all_categories()
         for categoria in categories:
@@ -23,8 +27,17 @@ class ProductDialog(QDialog):
         brands = dao.get_all_brands()
         for brand in brands:
             self.ui.brandComboBox.addItem(brand["title"])
+        if item:
+            self.ui.categoryComboBox.setCurrentText(item["category"])
+            self.ui.brandComboBox.setCurrentText(item["brand"])
+            self.ui.titleLineEdit.setText(item["title"])
+            self.ui.imageLineEdit.setText(item["image"])
+            self.ui.descriptionLineEdit.setText(item["description"])
+            self.ui.discountDoubleSpinBox.setValue(float(item["discount"]))
+            self.ui.priceDoubleSpinBox.setValue(float(item["price"]))
+            print(item)
 
-    def add_product(self):
+    def save(self):
         categoria = self.ui.categoryComboBox.currentText()
         brand = self.ui.brandComboBox.currentText()
 
@@ -38,9 +51,16 @@ class ProductDialog(QDialog):
         image = self.ui.imageLineEdit.text()
 
         print(title, category_id, brand_id, description, price, discount, image)
+        if self.item:
+            dao.edit_product(self.item["id"], title, category_id, brand_id, description, price, discount, image)
+            print(
+                "продукт успешно обновлен"
+            )
 
-        dao.add_product(title, category_id, brand_id, description, price, discount, image)
-        print(
-            "продукт успешно добавлен"
-        )
+        else:
+            dao.add_product(title, category_id, brand_id, description, price, discount, image)
+            print(
+                "продукт успешно добавлен"
+            )
+
         self.accept()

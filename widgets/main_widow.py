@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QWidget, QLayout
+from PyQt6.QtWidgets import QWidget, QLayout, QMessageBox
 
 from db import dao
 from gen.main_window import Ui_MainForm
@@ -27,6 +27,7 @@ class MainWindow(QWidget):
 
     def conn(self):
         self.ui.pushButton_add.clicked.connect(self.add_new_product)
+        self.ui.pushButton_edit.clicked.connect(self.edit_product)
 
         self.ui.lineEdit_search.textChanged.connect(self.add_widgets)
         self.ui.comboBox_postav.currentIndexChanged.connect(self.add_widgets)
@@ -35,6 +36,16 @@ class MainWindow(QWidget):
     def add_new_product(self):
         ProductDialog().exec()
         self.add_widgets()
+
+    def edit_product(self):
+        if self.selected_widget:
+            item = self.selected_widget.item
+            ProductDialog(item).exec()
+            self.add_widgets()
+
+        else:
+            QMessageBox.information(self,"выбери товар","выбери товар")
+
 
     def fill_combobox_sort(self):
         self.ui.comboBox_sort.addItem("Без сортировки")
@@ -57,7 +68,7 @@ class MainWindow(QWidget):
 
         items = dao.get_all_items(category,search,sort)
         for item in items:
-            print("item ===== ", item, "\n")
+            # print("item ===== ", item, "\n")
             self.ui.verticalLayout_4.addWidget(ItemWidget(item))
 
     def select_widget(self, widget):

@@ -12,7 +12,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_ItemWidget(object):
     def setupUi(self, ItemWidget):
         ItemWidget.setObjectName("ItemWidget")
-        ItemWidget.resize(702, 172)
+        ItemWidget.resize(708, 172)
         self.horizontalLayout = QtWidgets.QHBoxLayout(ItemWidget)
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.verticalLayout = QtWidgets.QVBoxLayout()
@@ -31,6 +31,9 @@ class Ui_ItemWidget(object):
         self.label_category = QtWidgets.QLabel(parent=ItemWidget)
         self.label_category.setObjectName("label_category")
         self.horizontalLayout_2.addWidget(self.label_category)
+        self.label_description = QtWidgets.QLabel(parent=ItemWidget)
+        self.label_description.setObjectName("label_description")
+        self.horizontalLayout_2.addWidget(self.label_description)
         self.label_brand = QtWidgets.QLabel(parent=ItemWidget)
         self.label_brand.setObjectName("label_brand")
         self.horizontalLayout_2.addWidget(self.label_brand)
@@ -52,6 +55,7 @@ class Ui_ItemWidget(object):
         self.label_image.setText(_translate("ItemWidget", "TextLabel"))
         self.label_title.setText(_translate("ItemWidget", "TextLabel"))
         self.label_category.setText(_translate("ItemWidget", "TextLabel"))
+        self.label_description.setText(_translate("ItemWidget", "TextLabel"))
         self.label_brand.setText(_translate("ItemWidget", "TextLabel"))
         self.label_price.setText(_translate("ItemWidget", "TextLabel"))
         self.label_discount.setText(_translate("ItemWidget", "TextLabel"))

@@ -23,7 +23,7 @@ class Database:
 
     def get_all_items(self, category="Все", search="", sort="Без сортировки"):
         sql = """
-            select b.title as brand, c.title as category, p.title, p.price, p.discount, p.image
+            select p.id, b.title as brand, c.title as category, p.title, p.price, p.discount, p.image, p.description
             from products p
             join brands b on b.id = p.brand_id
             join categories c on c.id = p.category_id
@@ -73,6 +73,20 @@ class Database:
         with self.cursor() as cur:
             cur.execute("select id from brands where title = %s", (brand,))
             return cur.fetchone()
+
+
+    def edit_product(self,item_id, title, category_id, brand_id, description, price, discount, image):
+        with self.cursor() as cur:
+            cur.execute("update products set title = %s,"
+                        " category_id = %s,"
+                        " brand_id = %s,"
+                        " description = %s,"
+                        " price = %s,"
+                        " discount = %s,"
+                        " image = %s"
+                        " where products.id = %s", (title, category_id, brand_id, description, price, discount, image, item_id))
+            cur.connection.commit()
+
 
 
 dao = Database()
