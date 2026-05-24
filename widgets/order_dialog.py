@@ -42,5 +42,10 @@ class OrderDialog(QDialog):
         count = str(self.ui.countSpinBox.text())
         product_id = self.ui.productComboBox.currentData()
 
-        dao.add_order(user_id, status_id, count, product_id)
+        if self.item:
+            order_id = self.item["id"]
+            dao.edit_order(order_id,user_id, status_id, count, product_id)
+        else:
+            dao.add_order(user_id, status_id, count, product_id)
+
         self.accept()

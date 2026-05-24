@@ -138,5 +138,19 @@ class Database:
             cur.execute("select * from products where id = %s", (product_id,))
         return cur.fetchone()
 
+    def edit_order(self, order_id, user_id, status_id, count, product_id):
+        with self.cursor() as cur:
+            cur.execute("update orders set user_id = %s, status_id = %s, count = %s, product_id = %s where id = %s", (user_id, status_id, count, product_id, order_id))
+            cur.connection.commit()
+            print("УСПЕХ, 1 200 000")
 
+    def get_order_by_product(self, product_id):
+        with self.cursor() as cur:
+            cur.execute("select * from orders o where o.product_id = %s", (product_id, ))
+        return cur.fetchall()
+
+    def delete_order(self, order_id):
+        with self.cursor() as cur:
+            cur.execute("delete from orders where id = %s", (order_id, ))
+            cur.connection.commit()
 dao = Database()

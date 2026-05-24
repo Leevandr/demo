@@ -40,6 +40,7 @@ class MainWindow(QWidget):
 
         self.ui.pushButton_add_order.clicked.connect(self.add_new_order)
         self.ui.pushButton_edit_order.clicked.connect(self.edit_order)
+        self.ui.pushButton_delete_order.clicked.connect(self.del_order)
 
         self.ui.pushButton_logout.clicked.connect(self.logout)
 
@@ -55,19 +56,28 @@ class MainWindow(QWidget):
     def edit_order(self):
         if self.selected_widget and isinstance(self.selected_widget, OrderItemWidget):
             OrderDialog(self.selected_widget.item).exec()
-        self.add_new_order()
+        self.add_widgets_orders()
+
+    def del_order(self):
+        if self.selected_widget and isinstance(self.selected_widget, OrderItemWidget):
+            dao.delete_order(self.selected_widget.item["id"])
+            self.add_widgets_orders()
 
     def add_widgets_orders(self):
         clear_layout(self.ui.verticalLayout_9)
         orders = dao.get_all_orders()
         for order in orders:
             self.ui.verticalLayout_9.addWidget(OrderItemWidget(order))
+        self.selected_widget = None
 
     def delete_product(self):
-        if self.selected_widget:
-            dao.delete_product(self.selected_widget.item["id"])
-            self.add_widgets()
-            print("продукт удален")
+        if self.selected_widget and isinstance(self.selected_widget, ItemWidget):
+            if dao.get_order_by_product(self.selected_widget.item["id"]):
+                QMessageBox.warning(self, "Товар в заказе, удалить нельзя", "Товар в заказе, удалить нельзя")
+            else:
+                dao.delete_product(self.selected_widget.item["id"])
+                self.add_widgets()
+                print("продукт удален")
         else:
             QMessageBox.warning(self,"выбери товар","выбери товар")
 
@@ -76,7 +86,7 @@ class MainWindow(QWidget):
         self.add_widgets()
 
     def edit_product(self):
-        if self.selected_widget:
+        if self.selected_widget and isinstance(self.selected_widget, ItemWidget):
             item = self.selected_widget.item
             ProductDialog(item).exec()
             self.add_widgets()
