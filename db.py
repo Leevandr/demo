@@ -28,8 +28,12 @@ class Database:
             join brands b on b.id = p.brand_id
             join categories c on c.id = p.category_id
             where p.title like %s
+                or p.description like %s
+                or c.title like %s
+                or b.title like %s
         """
-        params = [f"%{search}%"]
+        search_param = f"%{search}%"
+        params = [search_param,search_param,search_param,search_param]
 
         if category != "Все":
             sql += " and c.title = %s"
@@ -87,6 +91,9 @@ class Database:
                         " where products.id = %s", (title, category_id, brand_id, description, price, discount, image, item_id))
             cur.connection.commit()
 
-
+    def delete_product(self, item_id):
+        with self.cursor() as cur:
+            cur.execute("delete from products where id = %s", (item_id,))
+            cur.connection.commit()
 
 dao = Database()

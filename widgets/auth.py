@@ -30,22 +30,13 @@ class AuthWindow(QWidget):
             return
 
 
-        if user["role_id"] == 1:
-            self.main_window = MainWindow()
+        if user:
+            self.main_window = MainWindow(user)
             self.main_window.show()
             self.close()
 
-        if user["role_id"] == 2:
-            self.main_window = MainWindow()
-            self.main_window.show()
-            self.close()
-
-        if user["role_id"] == 3:
-            self.main_window = MainWindow()
-            self.main_window.show()
-            self.close()
 
     def guest(self):
-        self.main_window = MainWindow()
+        self.main_window = MainWindow(user={"role_id":4, "username":"Гостевой режим"})
         self.main_window.show()
         self.close()

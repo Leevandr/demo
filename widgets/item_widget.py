@@ -14,13 +14,20 @@ class ItemWidget(QWidget):
         self.fill_item()
 
     def fill_item(self):
-        self.ui.label_title.setText(self.item["title"])
-        self.ui.label_price.setText(f'{self.item["price"]} рублей')
-        self.ui.label_discount.setText(f'{self.item["discount"]} % скидки')
-        self.ui.label_category.setText(self.item["category"])
-        self.ui.label_brand.setText(self.item["brand"])
-        self.ui.label_description.setText(self.item["description"])
-
+        self.ui.label_title.setText(f'Название: {self.item["title"]}')
+        self.ui.label_discount.setText(f'Скидка: {self.item["discount"]} %')
+        self.ui.label_category.setText(f'Категория: {self.item["category"]}')
+        self.ui.label_brand.setText(f'Бренд: {self.item["brand"]}')
+        self.ui.label_description.setText(f'Описание: {self.item["description"]}')
+        if self.item["discount"] >= 15:
+            price = self.item["price"]
+            old_price = price / (1 - self.item["discount"] / 100)
+            self.ui.label_price.setText(
+                f'Старая цена: <s>{round(old_price,2)} рублей </s> <br>'
+                f'<font color="red">Новая цена {price} </font>'
+            )
+        else:
+            self.ui.label_price.setText(f'Цена: {self.item["price"]} рублей')
 
         if self.item["image"]:
             path = "image\\" + self.item["image"]

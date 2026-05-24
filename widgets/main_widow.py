@@ -14,11 +14,16 @@ def clear_layout(layout: QLayout):
 
 
 class MainWindow(QWidget):
-    def __init__(self):
+    def __init__(self, user):
         super().__init__()
         self.ui = Ui_MainForm()
         self.ui.setupUi(self)
 
+        self.auth = None
+        self.user = user
+
+        self.fill_name()
+        self.visibles()
         self.selected_widget = None
         self.add_widgets()
         self.conn()
@@ -28,10 +33,21 @@ class MainWindow(QWidget):
     def conn(self):
         self.ui.pushButton_add.clicked.connect(self.add_new_product)
         self.ui.pushButton_edit.clicked.connect(self.edit_product)
+        self.ui.pushButton_del.clicked.connect(self.delete_product)
+
+        self.ui.pushButton_logout.clicked.connect(self.logout)
 
         self.ui.lineEdit_search.textChanged.connect(self.add_widgets)
         self.ui.comboBox_postav.currentIndexChanged.connect(self.add_widgets)
         self.ui.comboBox_sort.currentIndexChanged.connect(self.add_widgets)
+
+    def delete_product(self):
+        if self.selected_widget:
+            dao.delete_product(self.selected_widget.item["id"])
+            self.add_widgets()
+            print("продукт удален")
+        else:
+            QMessageBox.warning(self,"выбери товар","выбери товар")
 
     def add_new_product(self):
         ProductDialog().exec()
@@ -44,7 +60,7 @@ class MainWindow(QWidget):
             self.add_widgets()
 
         else:
-            QMessageBox.information(self,"выбери товар","выбери товар")
+            QMessageBox.warning(self,"выбери товар","выбери товар")
 
 
     def fill_combobox_sort(self):
@@ -77,3 +93,26 @@ class MainWindow(QWidget):
 
         self.selected_widget = widget
         self.selected_widget.setStyleSheet("background: #8effb2;")
+
+    def fill_name(self):
+        self.ui.label_fio.setText(self.user["username"])
+
+    def logout(self):
+        from widgets.auth import AuthWindow
+        self.auth = AuthWindow()
+        self.auth.show()
+        self.close()
+
+    def visibles(self):
+        user_role = self.user["role_id"]
+        if user_role == 4:
+            self.ui.tabWidget.setTabVisible(1,False)
+            self.ui.pushButton_add.setVisible(False)
+            self.ui.pushButton_del.setVisible(False)
+            self.ui.pushButton_edit.setVisible(False)
+
+            self.ui.lineEdit_search.setVisible(False)
+            self.ui.comboBox_postav.setVisible(False)
+            self.ui.comboBox_sort.setVisible(False)
+
+
