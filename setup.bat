@@ -2,7 +2,10 @@
 chcp 65001 > nul
 setlocal enabledelayedexpansion
 
-set "PROJECT_DIR=%CD%"
+REM Project dir = folder where this script lives (independent of CWD).
+set "PROJECT_DIR=%~dp0"
+if "%PROJECT_DIR:~-1%"=="\" set "PROJECT_DIR=%PROJECT_DIR:~0,-1%"
+cd /d "%PROJECT_DIR%"
 set "HELPER=%PROJECT_DIR%\setup_helper.py"
 
 echo.

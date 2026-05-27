@@ -40,14 +40,13 @@ if exist "%HOME_DIR%\.git" (
     )
 )
 
-REM -- 3. Hand off to setup.bat
+REM -- 3. Hand off to setup.bat (absolute path; setup.bat self-locates via %~dp0)
 if not exist "%HOME_DIR%\setup.bat" (
     echo [FAIL] setup.bat missing after clone/pull.
     exit /b 1
 )
 
-cd /d "%HOME_DIR%"
-call setup.bat
+call "%HOME_DIR%\setup.bat"
+set "RC=%ERRORLEVEL%"
 
-endlocal
-exit /b %ERRORLEVEL%
+endlocal & exit /b %RC%
