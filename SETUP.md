@@ -2,13 +2,25 @@
 
 ## On exam machine (cmd.exe in PyCharm — Alt+F12)
 
-### First time
+### Option A — without git (curl + built-in tar)
+
+```cmd
+curl -fsSL https://github.com/Leevandr/demo/archive/refs/heads/master.tar.gz -o %TEMP%\d.tgz && mkdir %USERPROFILE%\demo 2>nul & tar --force-local -xzf %TEMP%\d.tgz -C %USERPROFILE%\demo --strip-components=1 && %USERPROFILE%\demo\setup.bat
+```
+
+Notes:
+- Requires only built-in `curl.exe` and `tar.exe` (Windows 10 1803+).
+- `--force-local` tells bsdtar to treat `C:\...` as local path, not `host:path`.
+- Re-run is safe — `tar -xzf` overwrites tracked files, `setup.bat` then rebuilds `.venv` and DB.
+- Built-in tar on Windows does **not** support ZIP, so we fetch `.tar.gz` instead.
+
+### Option B — with git (if git is available)
 
 ```cmd
 git clone https://github.com/Leevandr/demo %USERPROFILE%\demo && %USERPROFILE%\demo\setup.bat
 ```
 
-Result: project ready in `C:\Users\<user>\demo`, venv created, MySQL connected, database restored, ready to run. Takes ~30 seconds.
+Both options produce identical state in `C:\Users\<user>\demo`, venv created, MySQL connected, database restored, ready to run. Takes ~30 seconds.
 
 ### Re-run setup later (refresh venv + DB)
 
