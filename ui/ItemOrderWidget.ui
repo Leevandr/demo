@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ItemOrderWidget</class>
+ <widget class="QWidget" name="ItemOrderWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>780</width>
+    <height>132</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>0</width>
+    <height>116</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Заказ</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget#ItemOrderWidget {
+    background-color: transparent;
+}
+
+QFrame#frame_card {
+    background-color: #ffffff;
+    border: 1px solid #263238;
+    border-radius: 0px;
+}
+
+QFrame#frame_info,
+QFrame#frame_delivery {
+    background-color: transparent;
+    border: 1px solid #263238;
+}
+
+QLabel {
+    font-family: &quot;Times New Roman&quot;;
+    font-size: 14px;
+    border: none;
+    background: transparent;
+}
+
+QLabel#label_product_name {
+    font-weight: bold;
+}</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_root">
+   <property name="leftMargin">
+    <number>8</number>
+   </property>
+   <property name="topMargin">
+    <number>6</number>
+   </property>
+   <property name="rightMargin">
+    <number>8</number>
+   </property>
+   <property name="bottomMargin">
+    <number>6</number>
+   </property>
+   <item>
+    <widget class="QFrame" name="frame_card">
+     <property name="frameShape">
+      <enum>QFrame::Shape::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Shadow::Plain</enum>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_card">
+      <property name="leftMargin">
+       <number>12</number>
+      </property>
+      <property name="topMargin">
+       <number>8</number>
+      </property>
+      <property name="rightMargin">
+       <number>12</number>
+      </property>
+      <property name="bottomMargin">
+       <number>8</number>
+      </property>
+      <property name="spacing">
+       <number>14</number>
+      </property>
+      <item>
+       <widget class="QFrame" name="frame_info">
+        <property name="frameShape">
+         <enum>QFrame::Shape::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Shadow::Plain</enum>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_info">
+         <property name="leftMargin">
+          <number>10</number>
+         </property>
+         <property name="topMargin">
+          <number>8</number>
+         </property>
+         <property name="rightMargin">
+          <number>10</number>
+         </property>
+         <property name="bottomMargin">
+          <number>8</number>
+         </property>
+         <property name="spacing">
+          <number>4</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="label_product_name">
+           <property name="text">
+            <string>Артикул заказа</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_status_name">
+           <property name="text">
+            <string>Статус заказа</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_pickup_point">
+           <property name="text">
+            <string>Адрес пункта выдачи</string>
+           </property>
+           <property name="wordWrap">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_order_date">
+           <property name="text">
+            <string>Дата заказа</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QFrame" name="frame_delivery">
+        <property name="minimumSize">
+         <size>
+          <width>190</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>220</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::Shape::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Shadow::Plain</enum>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_delivery">
+         <property name="leftMargin">
+          <number>8</number>
+         </property>
+         <property name="topMargin">
+          <number>8</number>
+         </property>
+         <property name="rightMargin">
+          <number>8</number>
+         </property>
+         <property name="bottomMargin">
+          <number>8</number>
+         </property>
+         <item alignment="Qt::AlignmentFlag::AlignCenter">
+          <widget class="QLabel" name="label_delivery_date">
+           <property name="text">
+            <string>Дата доставки</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignmentFlag::AlignCenter</set>
+           </property>
+           <property name="wordWrap">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
