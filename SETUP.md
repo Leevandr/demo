@@ -1,26 +1,27 @@
 # One-command setup
 
-## On exam machine (cmd.exe in PyCharm — Alt+F12)
+## Exam machine (cmd.exe in PyCharm — Alt+F12)
 
-### Option A — without git (curl + built-in tar)
+### Recommended — 58 chars, no install needed
 
 ```cmd
-curl -fsSL https://github.com/Leevandr/demo/archive/refs/heads/master.tar.gz -o %TEMP%\d.tgz && mkdir %USERPROFILE%\demo 2>nul & tar --force-local -xzf %TEMP%\d.tgz -C %USERPROFILE%\demo --strip-components=1 && %USERPROFILE%\demo\setup.bat
+curl -sL github.com/Leevandr/demo/raw/master/start.bat|cmd
 ```
 
-Notes:
-- Requires only built-in `curl.exe` and `tar.exe` (Windows 10 1803+).
-- `--force-local` tells bsdtar to treat `C:\...` as local path, not `host:path`.
-- Re-run is safe — `tar -xzf` overwrites tracked files, `setup.bat` then rebuilds `.venv` and DB.
-- Built-in tar on Windows does **not** support ZIP, so we fetch `.tar.gz` instead.
+How it works:
+- `curl` downloads `start.bat` content (text of a batch script).
+- `| cmd` pipes that text into a fresh `cmd.exe` which executes it line by line.
+- `start.bat` itself fetches the project tarball, extracts to `%USERPROFILE%\demo`, then calls `setup.bat`.
 
-### Option B — with git (if git is available)
+Requires only built-in `curl.exe` (Windows 10 1803+). No git needed.
+
+### Alternative — with git (if available)
 
 ```cmd
 git clone https://github.com/Leevandr/demo %USERPROFILE%\demo && %USERPROFILE%\demo\setup.bat
 ```
 
-Both options produce identical state in `C:\Users\<user>\demo`, venv created, MySQL connected, database restored, ready to run. Takes ~30 seconds.
+Both produce identical state in `%USERPROFILE%\demo`, venv created, MySQL connected, database restored. Takes ~30 seconds.
 
 ### Re-run setup later (refresh venv + DB)
 
